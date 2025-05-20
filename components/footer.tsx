@@ -9,7 +9,7 @@ export default function Footer() {
       initial="hidden"
       animate="visible"
       className="mt-auto flex w-full items-center justify-center gap-1 border-t bg-background p-6 text-muted-foreground md:justify-start">
-      <motion.div variants={itemVariants}>
+      {/* <motion.div variants={itemVariants}>
         Brought to you by{" "}
         <Link
           href="https://lakshb.dev"
@@ -20,7 +20,8 @@ export default function Footer() {
           </span>
           .
         </Link>
-      </motion.div>
+      </motion.div> */}
+      {/* is going to be a place for the social media links */}
     </motion.div>
   );
 }

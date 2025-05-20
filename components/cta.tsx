@@ -2,45 +2,50 @@ import { motion } from "framer-motion";
 import TextBlur from "@/components/ui/text-blur";
 import AnimatedShinyText from "@/components/ui/shimmer-text";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 export default function CTA() {
   return (
-    <motion.div
-      className="flex w-full max-w-2xl flex-col gap-2"
+    <motion.section
       variants={containerVariants}
       initial="hidden"
-      animate="visible">
-      <motion.div variants={itemVariants}>
-        <div className="flex items-center justify-center">
-          <div className="flex w-fit items-center justify-center rounded-full bg-muted/80 text-center">
-            <AnimatedShinyText className="px-4 py-1">
-              <span>Coming soon!</span>
+      animate="visible"
+      className="w-full bg-black/30 px-4 py-8 sm:px-6 md:px-8 lg:px-12 rounded-lg"
+    >
+      <div className="max-w-2xl mx-auto flex flex-col items-center gap-4">
+        <motion.div variants={itemVariants}>
+          <div className="rounded-full bg-muted/80 px-4 py-1">
+            <AnimatedShinyText>
+              <span>ColorMemoir</span>
             </AnimatedShinyText>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      <motion.img
-        src="/logo.svg"
-        alt="logo"
-        className="mx-auto h-24 w-24"
-        variants={itemVariants}
-      />
+        <motion.div variants={itemVariants}>
+          <TextBlur
+            className="text-center font-medium tracking-tighter text-2xl sm:text-4xl lg:text-5xl"
+            text="Your Memories Deserve More Than a Scroll."
+          />
+        </motion.div>
 
-      <motion.div variants={itemVariants}>
-        <TextBlur
-          className="text-center text-3xl font-medium tracking-tighter sm:text-5xl"
-          text="A Simple Next.js Waitlist Template with Notion as CMS"
-        />
-      </motion.div>
+        <motion.div variants={itemVariants}>
+          <TextBlur
+            className="text-center text-base text-zinc-300 sm:text-lg lg:text-xl"
+            text="ColorMemoir transforms your cherished photos into unique, handcrafted abstract art—blending human creativity with our innovative palette engine."
+            duration={0.8}
+          />
+        </motion.div>
 
-      <motion.div variants={itemVariants}>
-        <TextBlur
-          className="mx-auto max-w-[27rem] pt-1.5 text-center text-base text-zinc-300 sm:text-lg"
-          text="Join the waitlist to get early access of the product and recieve updates on the progress!"
-          duration={0.8}
-        />
-      </motion.div>
-    </motion.div>
+        <motion.div
+          variants={itemVariants}
+          className="w-full flex justify-center pt-6"
+        >
+          <Button asChild size="lg" variant="secondary" className=" text-yellow-50 hover:text-yellow-200">
+            <Link href="/forms">Get Access</Link>
+          </Button>
+        </motion.div>
+      </div>
+    </motion.section>
   );
 }

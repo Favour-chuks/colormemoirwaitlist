@@ -68,8 +68,8 @@ const Particles: React.FC<ParticlesProps> = ({
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const context = useRef<CanvasRenderingContext2D | null>(null);
   const circles = useRef<any[]>([]);
-  const mousePosition = MousePosition();
-  const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  // const mousePosition = MousePosition();
+  // const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 
@@ -111,9 +111,9 @@ const Particles: React.FC<ParticlesProps> = ({
     };
   }, [color, initCanvas]);
 
-  useEffect(() => {
-    onMouseMove();
-  }, [mousePosition.x, mousePosition.y]);
+  // useEffect(() => {
+  //   onMouseMove();
+  // }, [mousePosition.x, mousePosition.y]);
 
   useEffect(() => {
     initCanvas();
@@ -123,13 +123,13 @@ const Particles: React.FC<ParticlesProps> = ({
     if (canvasRef.current) {
       const rect = canvasRef.current.getBoundingClientRect();
       const { w, h } = canvasSize.current;
-      const x = mousePosition.x - rect.left - w / 2;
-      const y = mousePosition.y - rect.top - h / 2;
+      const x = /** mousePosition.x - **/ rect.left - w / 2;
+      const y = /** mousePosition.y - */ rect.top - h / 2;
       const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2;
-      if (inside) {
-        mouse.current.x = x;
-        mouse.current.y = y;
-      }
+      // if (inside) {
+      //   mouse.current.x = x;
+      //   mouse.current.y = y;
+      // }
     }
   };
 
@@ -258,10 +258,10 @@ const Particles: React.FC<ParticlesProps> = ({
       circle.x += circle.dx + vx;
       circle.y += circle.dy + vy;
       circle.translateX +=
-        (mouse.current.x / (staticity / circle.magnetism) - circle.translateX) /
+        (/**mouse.current.x / **/(staticity / circle.magnetism) - circle.translateX) /
         ease;
       circle.translateY +=
-        (mouse.current.y / (staticity / circle.magnetism) - circle.translateY) /
+        (/**mouse.current.y / **/(staticity / circle.magnetism) - circle.translateY) /
         ease;
 
       drawCircle(circle, true);
@@ -282,10 +282,11 @@ const Particles: React.FC<ParticlesProps> = ({
 
   return (
     <div
-      className={`${className} fixed inset-0 -z-[100]`}
+      className={`${className} fixed inset-0 -z-[50]`}
       ref={canvasContainerRef}
-      aria-hidden="true">
-      <canvas ref={canvasRef} style={{ width: "100vw", height: "100vh" }} />
+      aria-hidden="true"
+      style={{ backgroundColor: "transparent" }}>
+      <canvas ref={canvasRef} style={{ width: "100vw", height: "100vh", backgroundColor: "transparent" }} />
     </div>
   );
 };
