@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useRef } from "react";
+import { motion } from "framer-motion";
 import { FiPlus, FiX } from "react-icons/fi";
-import useMeasure from "react-use-measure";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
 
-const FAQ = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const faqs = [
+const faqs = [
   {
     question: "How will I join the beta and see my memories come to life?",
     answer:
@@ -40,8 +36,9 @@ const FAQ = () => {
   },
 ];
 
-
-
+const FAQ = () => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const refs = useRef<(HTMLDivElement | null)[]>([]);
 
   const toggleFAQ = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -49,20 +46,24 @@ const FAQ = () => {
 
   return (
     <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          viewport={{ once: true, amount: 0.3 }}
-    className="mx-auto w-full px-6 md:px-20 ">
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      className="mx-auto w-full px-6 md:px-20"
+    >
       <h2 className="mb-8 text-center text-2xl font-medium tracking-tight text-zinc-200 sm:text-3xl lg:text-4xl">
         Frequently Asked Questions
       </h2>
+
       <motion.div
-      variants={itemVariants}
-      className="rounded-lg border border-gray-300 bg-gray-100 overflow-clip">
+        variants={itemVariants}
+        className="rounded-lg border border-gray-300 bg-gray-100 overflow-clip"
+      >
         {faqs.map((faq, index) => {
-          const [ref, { height }] = useMeasure();
           const isActive = activeIndex === index;
+          const contentHeight =
+            refs.current[index]?.scrollHeight || (isActive ? "auto" : 0);
 
           return (
             <motion.div
@@ -70,15 +71,18 @@ const FAQ = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="overflow-hidden shadow-sm">
+              className="overflow-hidden shadow-sm"
+            >
               <div
                 onClick={() => toggleFAQ(index)}
-                className="flex cursor-pointer items-center gap-6 p-4 hover:bg-gray-200">
+                className="flex cursor-pointer items-center gap-6 p-4 hover:bg-gray-200"
+              >
                 <motion.div
                   initial={{ rotate: 0 }}
                   animate={{ rotate: isActive ? 45 : 0 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="text-gray-600">
+                  className="text-gray-600"
+                >
                   {isActive ? <FiX size={24} /> : <FiPlus size={24} />}
                 </motion.div>
                 <h3 className="text-lg font-normal text-gray-800">
@@ -88,17 +92,23 @@ const FAQ = () => {
 
               <motion.div
                 animate={{
-                  height: isActive ? height : 0,
+                  height: isActive ? contentHeight : 0,
                   opacity: isActive ? 1 : 0,
                 }}
                 transition={{ duration: 0.4, ease: [0.25, 0.8, 0.25, 1] }}
-                style={{ overflow: "hidden" }}>
-                <div ref={ref} className="px-12 py-4 text-gray-700">
+                style={{ overflow: "hidden" }}
+              >
+                <div
+                  ref={(el) => {refs.current[index] = el}}
+                  className="px-12 py-4 text-gray-700"
+                >
                   {faq.answer}
                 </div>
               </motion.div>
 
-              {index !== faqs.length - 1 && <hr className="border-gray-300" />}
+              {index !== faqs.length - 1 && (
+                <hr className="border-gray-300" />
+              )}
             </motion.div>
           );
         })}
