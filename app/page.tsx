@@ -65,11 +65,11 @@ export default function Home() {
       </section>
 
       {/* Referrals */}
-      <section className="w-full px-4 py-12 sm:py-16 lg:py-20">
+{/*       <section className="w-full px-4 py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-4xl">
           <Referrals />
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer className="w-full py-8">
